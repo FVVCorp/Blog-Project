@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application_", "Application_", "{41048289-AC99-464C-83CB-7E7622B695C5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{41048289-AC99-464C-83CB-7E7622B695C5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain_", "Domain_", "{86BCC283-E471-49E4-A733-102021B55DC5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{86BCC283-E471-49E4-A733-102021B55DC5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure_", "Infrastructure_", "{05E4DCF8-DB38-447A-A432-3894F013C4F1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{05E4DCF8-DB38-447A-A432-3894F013C4F1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebAPI_", "WebAPI_", "{238BD55E-8413-4EE1-8DEA-ACCFB7E77A07}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebAPI", "WebAPI", "{238BD55E-8413-4EE1-8DEA-ACCFB7E77A07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{1809D3BE-EFB6-48FA-B6D1-B6C07672E2F8}"
 EndProject
