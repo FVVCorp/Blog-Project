@@ -16,7 +16,7 @@ namespace Persistence.Repositories
             var client = new MongoClient(settings.ConnectionString);
             var db = client.GetDatabase(settings.DatabaseName);
 
-            _articles = db.GetCollection<Article>(settings.CollectionName);
+            _articles = db.GetCollection<Article>(settings.ArticlesCollectionName);
         }
 
         public async Task<IEnumerable<Article>> GetArticles()

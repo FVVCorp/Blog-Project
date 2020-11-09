@@ -8,7 +8,7 @@ namespace Application.Queries
 {
     public class GetArticleByIdQuery : IRequest<Article>
     {
-        public int Id { get; set; }
+        public int Article_ID { get; set; }
 
         public class GetArticleByIdHandler : IRequestHandler<GetArticleByIdQuery, Article>
         {
@@ -21,7 +21,7 @@ namespace Application.Queries
 
             public async Task<Article> Handle(GetArticleByIdQuery query, CancellationToken cancellationToken)
             {
-                Task<Article> article = _articleRepository.GetArticle(query.Id);
+                Task<Article> article = _articleRepository.GetArticle(query.Article_ID);
                 if (article == null) return null;
                 return await article;
             }
