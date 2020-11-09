@@ -42,6 +42,7 @@ namespace Persistence.Repositories
             var entity = await _context.Users
                 .FirstOrDefaultAsync(user => Int32.Parse(user.Id) == userId);
             _context.Users.Remove(entity);
+            
             await _context.SaveChangesAsync();
 
             return entity;

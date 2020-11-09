@@ -5,10 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands" />
-    <Folder Include="Queries" />
     <Folder Include="Service Interfaces" />
     <Folder Include="Services" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Persistence\Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
   </ItemGroup>
 
 </Project>
