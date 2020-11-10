@@ -21,36 +21,36 @@ namespace Persistence.Repositories
 
         public async Task<IEnumerable<Article>> GetArticles()
         {
-            return await this._articles.Find(article => true).ToListAsync();
+            return await _articles.Find(article => true).ToListAsync();
         }
 
-        public async Task<Article> GetArticle(int Article_ID)
+        public async Task<Article> GetArticle(int articleId)
         {
-            return await this._articles.Find(article => article.Article_ID == Article_ID).FirstOrDefaultAsync();
+            return await _articles.Find(article => article.ArticleId == articleId).FirstOrDefaultAsync();
         }
 
         public async Task Create(Article newArticle)
         {
-            await this._articles.InsertOneAsync(newArticle);
+            await _articles.InsertOneAsync(newArticle);
         }
 
 
-        public async Task Update(int Article_ID, Task<Article> _article)
+        public async Task Update(int articleId, Task<Article> newArticle)
         {
             Article article = new Article()
             {
-                Article_ID = _article.Result.Article_ID,
-                Article_Text = _article.Result.Article_Text,
-                Article_Karma = _article.Result.Article_Karma,
-                Author_ID = _article.Result.Author_ID
+                ArticleId = newArticle.Result.ArticleId,
+                ArticleText = newArticle.Result.ArticleText,
+                ArticleKarma = newArticle.Result.ArticleKarma,
+                AuthorId = newArticle.Result.AuthorId
             };
 
-            await this._articles.ReplaceOneAsync(article => article.Article_ID == Article_ID, article);
+            await _articles.ReplaceOneAsync(article => article.ArticleId == articleId, article);
         }
 
-        public async Task Delete(int Article_ID)
+        public async Task Delete(int articleId)
         {
-            await this._articles.DeleteOneAsync(article => article.Article_ID == Article_ID);
+            await _articles.DeleteOneAsync(article => article.ArticleId == articleId);
         }
     }
 }

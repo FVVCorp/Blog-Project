@@ -7,9 +7,9 @@ namespace Persistence.Repository_Interfaces
     public interface IArticleRepository
     {
         Task<IEnumerable<Article>> GetArticles();
-        Task<Article> GetArticle(int Article_ID);
+        Task<Article> GetArticle(int articleId);
         Task Create(Article newArticle);
-        Task Update(int Article_ID, Task<Article> article);
-        Task Delete(int Acticle_ID);
+        Task Update(int articleId, Task<Article> article);
+        Task Delete(int aritcleId);
     }
 }

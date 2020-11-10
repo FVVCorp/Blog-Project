@@ -2,10 +2,10 @@
 {
     public interface IArticle
     {
-        string _id { get; set; }
-        int Article_ID { get; set; }
-        string Article_Text { get; set; }
-        int Article_Karma { get; set; }
-        int Author_ID { get; set; }
+        string AutoId { get; set; }
+        int ArticleId { get; set; }
+        string ArticleText { get; set; }
+        int ArticleKarma { get; set; }
+        int AuthorId { get; set; }
     }
 }

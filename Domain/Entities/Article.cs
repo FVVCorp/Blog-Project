@@ -7,10 +7,10 @@ namespace Domain.Entities
     public class Article : IArticle
     {
         [BsonId, BsonRepresentation(BsonType.ObjectId)]
-        public string _id { get; set; }
-        public int Article_ID { get; set; }
-        public string Article_Text { get; set; }
-        public int Article_Karma { get; set; }
-        public int Author_ID { get; set; }
+        public string AutoId { get; set; }
+        public int ArticleId { get; set; }
+        public string ArticleText { get; set; }
+        public int ArticleKarma { get; set; }
+        public int AuthorId { get; set; }
     }
 }

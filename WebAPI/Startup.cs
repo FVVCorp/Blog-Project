@@ -5,8 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Persistence.Repositories;
-using Persistence.Repository_Interfaces;
+using Persistence.Dependency_Injection;
 using Persistence.Setting_Interfaces;
 using Persistence.Settings;
 
@@ -23,13 +22,13 @@ namespace WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IArticleRepository, ArticleRepository>();
-
             services.Configure<ArticlesDatabaseSettings>(Configuration.GetSection(nameof(ArticlesDatabaseSettings)));
 
             services.AddSingleton<IArticlesDatabaseSettings>(sp => sp.GetRequiredService<IOptions<ArticlesDatabaseSettings>>().Value);
 
             services.AddApplication();
+
+            services.AddPersistence();
 
             services.AddControllers();
         }

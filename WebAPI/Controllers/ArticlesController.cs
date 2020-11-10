@@ -2,58 +2,60 @@
 using Application.Queries;
 using Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace WebAPI.Controllers
 {
     [ApiController, Route("api/[controller]")]
     public class ArticlesController : ControllerBase
     {
-        private IMediator _mediator;
-        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        private readonly IMediator _mediator;
 
-        [HttpGet("{Article_ID}")]
-        public async Task<IActionResult> GetArticle(int Article_ID)
+        public ArticlesController(IMediator mediator)
         {
-            return Ok(await Mediator.Send(new GetArticleByIdQuery() { Article_ID = Article_ID }));
+            _mediator = mediator;
+        }
+
+        [HttpGet("{ArticleId}")]
+        public async Task<IActionResult> GetArticle(int articleId)
+        {
+            return Ok(await _mediator.Send(new GetArticleByIdQuery() { ArticleId = articleId }));
         }
 
         [HttpGet]
         public async Task<IActionResult> GetArticles()
         {
-            return Ok(await Mediator.Send(new GetAllArticlesQuery()));
+            return Ok(await _mediator.Send(new GetAllArticlesQuery()));
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(Article article)
         {
-            return Ok(await Mediator.Send(new CreateArticleCommand()
+            return Ok(await _mediator.Send(new CreateArticleCommand()
             {
-                Article_ID = article.Article_ID,
-                Article_Text = article.Article_Text,
-                Article_Karma = article.Article_Karma,
-                Author_ID = article.Author_ID
+                ArticleId = article.ArticleId,
+                ArticleText = article.ArticleText,
+                ArticleKarma = article.ArticleKarma,
+                AuthorId = article.AuthorId
             }));
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(int Article_ID, UpdateArticleCommand command)
+        public async Task<IActionResult> Update(int articleId, UpdateArticleCommand command)
         {
-            if (Article_ID != command.Article_ID)
+            if (articleId != command.ArticleId)
             {
                 return BadRequest();
             }
 
-            return Ok(await Mediator.Send(command));
+            return Ok(await _mediator.Send(command));
         }
 
         [HttpDelete("{Article_ID}")]
-        public async Task<IActionResult> Delete(int Article_ID)
+        public async Task<IActionResult> Delete(int articleId)
         {
-            return Ok(await Mediator.Send(new DeleteArticleCommand() { Article_ID = Article_ID }));
+            return Ok(await _mediator.Send(new DeleteArticleCommand() { ArticleId = articleId }));
         }
     }
 }
