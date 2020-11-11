@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Handlers
 {
-    public class CreateArticleCommandHandler : IRequestHandler<CreateArticleCommand, Task>
+    public class CreateArticleCommandHandler : IRequestHandler<CreateArticleCommand, int>
     {
         private readonly IArticleRepository _articleRepository;
 
@@ -16,7 +16,7 @@ namespace Application.Handlers
             _articleRepository = articleRepository;
         }
 
-        public async Task<Task> Handle(CreateArticleCommand command, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateArticleCommand command, CancellationToken cancellationToken)
         {
             var article = new Article
             {
@@ -28,7 +28,7 @@ namespace Application.Handlers
 
             await _articleRepository.Create(article);
 
-            return default;
+            return article.ArticleId;
         }
     }
 }

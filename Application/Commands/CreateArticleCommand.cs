@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Application.Commands
 {
-    public class CreateArticleCommand : IRequest<Task>
+    public class CreateArticleCommand : IRequest<int>
     {
         public int ArticleId { get; set; }
         public string ArticleText { get; set; }

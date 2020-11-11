@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{ArticleId}")]
-        public async Task<IActionResult> GetArticle(int articleId)
+        public async Task<ActionResult> GetArticle(int articleId)
         {
             return Ok(await _mediator.Send(new GetArticleByIdQuery() { ArticleId = articleId }));
         }

@@ -1,4 +1,5 @@
 ﻿using Application.Commands;
+using Domain.Entities;
 using MediatR;
 using Persistence.Repository_Interfaces;
 using System.Threading;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Handlers
 {
-    public class UpdateArticleCommandHandler : IRequestHandler<UpdateArticleCommand, Task>
+    public class UpdateArticleCommandHandler : IRequestHandler<UpdateArticleCommand, Article>
     {
         private readonly IArticleRepository _articleRepository;
 
@@ -15,7 +16,7 @@ namespace Application.Handlers
             _articleRepository = articleRepository;
         }
 
-        public async Task<Task> Handle(UpdateArticleCommand command, CancellationToken cancellationToken)
+        public async Task<Article> Handle(UpdateArticleCommand command, CancellationToken cancellationToken)
         {
             var article = _articleRepository.GetArticle(command.ArticleId);
 
@@ -28,11 +29,11 @@ namespace Application.Handlers
 
                 await _articleRepository.Update(command.ArticleId, article);
 
-                return Task.CompletedTask;
+                return await article;
             }
             else
             {
-                return default;
+                return null;
             }
         }
     }

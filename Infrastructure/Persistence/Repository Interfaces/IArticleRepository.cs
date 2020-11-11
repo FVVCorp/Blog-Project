@@ -8,8 +8,8 @@ namespace Persistence.Repository_Interfaces
     {
         Task<IEnumerable<Article>> GetArticles();
         Task<Article> GetArticle(int articleId);
-        Task Create(Article newArticle);
-        Task Update(int articleId, Task<Article> article);
-        Task Delete(int aritcleId);
+        Task<int> Create(Article newArticle);
+        Task<Article> Update(int articleId, Task<Article> article);
+        Task<bool> Delete(int aritcleId);
     }
 }

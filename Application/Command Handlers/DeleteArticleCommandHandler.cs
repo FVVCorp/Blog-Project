@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Handlers
 {
-    public class DeleteArticleCommandHandler : IRequestHandler<DeleteArticleCommand, Task>
+    public class DeleteArticleCommandHandler : IRequestHandler<DeleteArticleCommand, bool>
     {
         private readonly IArticleRepository _articleRepository;
 
@@ -15,18 +15,18 @@ namespace Application.Handlers
             _articleRepository = articleRepository;
         }
 
-        public async Task<Task> Handle(DeleteArticleCommand command, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteArticleCommand command, CancellationToken cancellationToken)
         {
             var article = _articleRepository.GetArticle(command.ArticleId);
 
             if (article.Result != null)
             {
                 await _articleRepository.Delete(command.ArticleId);
-                return Task.CompletedTask;
+                return true;
             }
             else
             {
-                return default;
+                return false;
             }
         }
     }

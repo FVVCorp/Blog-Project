@@ -26,16 +26,24 @@ namespace Persistence.Repositories
 
         public async Task<Article> GetArticle(int articleId)
         {
-            return await _articles.Find(article => article.ArticleId == articleId).FirstOrDefaultAsync();
+            var checkArticleExistence = await _articles.Find(article => article.ArticleId == articleId).FirstOrDefaultAsync();
+            if(checkArticleExistence != default)
+            {
+                return checkArticleExistence;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public async Task Create(Article newArticle)
+        public async Task<int> Create(Article newArticle)
         {
             await _articles.InsertOneAsync(newArticle);
+            return newArticle.ArticleId;
         }
 
-
-        public async Task Update(int articleId, Task<Article> newArticle)
+        public async Task<Article> Update(int articleId, Task<Article> newArticle)
         {
             Article article = new Article()
             {
@@ -46,11 +54,22 @@ namespace Persistence.Repositories
             };
 
             await _articles.ReplaceOneAsync(article => article.ArticleId == articleId, article);
+            return article;
         }
 
-        public async Task Delete(int articleId)
+        public async Task<bool> Delete(int articleId)
         {
-            await _articles.DeleteOneAsync(article => article.ArticleId == articleId);
+            var checkArticleExistence = await _articles.Find(art => art.ArticleId == articleId).FirstOrDefaultAsync();
+            if(checkArticleExistence != default)
+            {
+                await _articles.DeleteOneAsync(article => article.ArticleId == articleId);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
     }
 }
