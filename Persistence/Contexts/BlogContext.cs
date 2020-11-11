@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Contexts
 {
-    public sealed class BlogContext : IdentityDbContext<ApplicationUser>
+    public sealed class BlogContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
     {
         public BlogContext()
         {

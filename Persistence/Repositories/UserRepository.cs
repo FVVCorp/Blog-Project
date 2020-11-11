@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +31,7 @@ namespace Persistence.Repositories
         }
         public async Task<ApplicationUser> UpdateAsync(ApplicationUser applicationUser)
         {
-            _context.Users.Update(applicationUser);
+            _context.Users.Update(applicationUser);    
             await _context.SaveChangesAsync();
             
             return applicationUser;
@@ -40,7 +39,7 @@ namespace Persistence.Repositories
         public async Task<ApplicationUser> DeleteAsync(int userId)
         {
             var entity = await _context.Users
-                .FirstOrDefaultAsync(user => Int32.Parse(user.Id) == userId);
+                .FirstOrDefaultAsync(user => user.Id == userId);
             _context.Users.Remove(entity);
             
             await _context.SaveChangesAsync();

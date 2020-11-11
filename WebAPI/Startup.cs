@@ -1,3 +1,4 @@
+using Application.Dependency_Injection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -5,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence.Contexts;
+using Persistence.Repositories;
+using Persistence.Repository_Interfaces;
 
 namespace WebAPI
 {
@@ -19,7 +22,9 @@ namespace WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplication();
             services.AddControllers();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddDbContext<BlogContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("BlogConnection"))
                 .UseLazyLoadingProxies());
