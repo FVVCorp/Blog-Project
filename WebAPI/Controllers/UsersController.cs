@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
 
         [HttpPut]
         public async Task<IActionResult> Update(UpdateUserCommand command)
-        {
+        {    
             return Ok(await _mediator.Send(command));
         }
 
