@@ -1,11 +1,11 @@
 ﻿using Application.Commands;
 using Domain.Entities;
 using MediatR;
-using Persistence.Repository_Interfaces;
+using Persistence.RepositoryInterfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Handlers
+namespace Application.CommandHandlers
 {
     public class CreateArticleCommandHandler : IRequestHandler<CreateArticleCommand, int>
     {
@@ -20,15 +20,10 @@ namespace Application.Handlers
         {
             var article = new Article
             {
-                ArticleId = command.ArticleId,
-                ArticleText = command.ArticleText,
-                ArticleKarma = command.ArticleKarma,
-                AuthorId = command.AuthorId
+                ArticleText = command.ArticleText
             };
 
-            await _articleRepository.Create(article);
-
-            return article.ArticleId;
+            return await _articleRepository.CreateArticle(article);
         }
     }
 }

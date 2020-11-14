@@ -1,13 +1,15 @@
-using Application.Dependency_Injection;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Persistence.Dependency_Injection;
-using Persistence.Setting_Interfaces;
+using Persistence.Repositories;
+using Persistence.RepositoryInterfaces;
+using Persistence.SettingInterfaces;
 using Persistence.Settings;
+using Application.QueryHandlers;
 
 namespace WebAPI
 {
@@ -26,9 +28,9 @@ namespace WebAPI
 
             services.AddSingleton<IArticlesDatabaseSettings>(sp => sp.GetRequiredService<IOptions<ArticlesDatabaseSettings>>().Value);
 
-            services.AddApplication();
+            services.AddMediatR(typeof(GetAllArticlesQueryHandler).Assembly);
 
-            services.AddPersistence();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
 
             services.AddControllers();
         }

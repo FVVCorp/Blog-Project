@@ -1,4 +1,4 @@
-﻿using Persistence.Setting_Interfaces;
+﻿using Persistence.SettingInterfaces;
 
 namespace Persistence.Settings
 {

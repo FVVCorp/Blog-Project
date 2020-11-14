@@ -1,4 +1,4 @@
-﻿namespace Persistence.Setting_Interfaces
+﻿namespace Persistence.SettingInterfaces
 {
     public interface IArticlesDatabaseSettings
     {

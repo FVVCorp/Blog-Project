@@ -5,16 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Service Interfaces\" />
+    <Folder Include="ServiceInterfaces\" />
     <Folder Include="Services\" />
     <Folder Include="Queries\" />
+    <Folder Include="Commands\" />
+    <Folder Include="QueryHandlers\" />
+    <Folder Include="CommandHandlers\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Persistence\Persistence.csproj" />
   </ItemGroup>
   

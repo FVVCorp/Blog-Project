@@ -1,11 +1,11 @@
 ﻿using Application.Queries;
 using Domain.Entities;
 using MediatR;
-using Persistence.Repository_Interfaces;
+using Persistence.RepositoryInterfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Query_Handlers
+namespace Application.QueryHandlers
 {
     public class GetArticleByIdQueryHandler : IRequestHandler<GetArticleByIdQuery, Article>
     {
@@ -18,7 +18,7 @@ namespace Application.Query_Handlers
 
         public async Task<Article> Handle(GetArticleByIdQuery query, CancellationToken cancellationToken)
         {
-            Task<Article> article = _articleRepository.GetArticle(query.ArticleId);
+            Task<Article> article = _articleRepository.GetArticleById(query.ArticleId);
             if (article.Result == null) return null;
             return await article;
         }

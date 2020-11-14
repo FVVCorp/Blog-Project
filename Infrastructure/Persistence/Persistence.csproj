@@ -6,10 +6,10 @@
 
   <ItemGroup>
     <Folder Include="Contexts\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Domain\Domain.csproj" />
+    <Folder Include="Repositories\" />
+    <Folder Include="RepositoryInterfaces\" />
+    <Folder Include="Settings\" />
+    <Folder Include="SettingInterfaces\" />
   </ItemGroup>
   
   <ItemGroup>
@@ -18,6 +18,10 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.9" />
     <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>

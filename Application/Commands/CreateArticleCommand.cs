@@ -1,13 +1,15 @@
-﻿using MediatR;
-using System.Threading.Tasks;
+﻿using Domain.Entities;
+using MediatR;
 
 namespace Application.Commands
 {
     public class CreateArticleCommand : IRequest<int>
     {
-        public int ArticleId { get; set; }
-        public string ArticleText { get; set; }
-        public int ArticleKarma { get; set; }
-        public int AuthorId { get; set; }
+        public string ArticleText { get; private set; }
+
+        public CreateArticleCommand(Article article)
+        {
+            ArticleText = article.ArticleText;
+        }
     }
 }

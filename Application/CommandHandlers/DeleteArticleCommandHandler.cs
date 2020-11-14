@@ -1,10 +1,10 @@
 ﻿using Application.Commands;
 using MediatR;
-using Persistence.Repository_Interfaces;
+using Persistence.RepositoryInterfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Handlers
+namespace Application.CommandHandlers
 {
     public class DeleteArticleCommandHandler : IRequestHandler<DeleteArticleCommand, bool>
     {
@@ -17,17 +17,7 @@ namespace Application.Handlers
 
         public async Task<bool> Handle(DeleteArticleCommand command, CancellationToken cancellationToken)
         {
-            var article = _articleRepository.GetArticle(command.ArticleId);
-
-            if (article.Result != null)
-            {
-                await _articleRepository.Delete(command.ArticleId);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return await _articleRepository.DeleteArticle(command.ArticleId);
         }
     }
 }
