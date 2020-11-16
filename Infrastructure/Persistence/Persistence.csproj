@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contexts\" />
     <Folder Include="Repositories\" />
     <Folder Include="RepositoryInterfaces\" />
-    <Folder Include="Settings\" />
-    <Folder Include="SettingInterfaces\" />
   </ItemGroup>
   
   <ItemGroup>

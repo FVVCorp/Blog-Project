@@ -2,25 +2,24 @@
 using Persistence.RepositoryInterfaces;
 using Domain.Entities;
 using System.Collections.Generic;
-using Persistence.SettingInterfaces;
 using System.Threading.Tasks;
 using System;
 using System.Diagnostics;
+using Persistence.ContextInterfaces;
 
 namespace Persistence.Repositories
 {
     public class ArticleRepository : IArticleRepository
     {
+        private readonly IArticlesDbContext _context;
         private readonly IMongoCollection<Article> _articles;
 
-        public ArticleRepository(IArticlesDatabaseSettings settings)
+        public ArticleRepository(IArticlesDbContext context)
         {
             try
             {
-                var client = new MongoClient(settings.ConnectionString);
-                var db = client.GetDatabase(settings.DatabaseName);
-
-                _articles = db.GetCollection<Article>(settings.ArticlesCollectionName);
+                _context = context;
+                _articles = _context.GetCollections<Article>();
             }
             catch(Exception e)
             {

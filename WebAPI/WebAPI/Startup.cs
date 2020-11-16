@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Persistence.Repositories;
 using Persistence.RepositoryInterfaces;
-using Persistence.SettingInterfaces;
 using Persistence.Settings;
 using Application.QueryHandlers;
+using Persistence.ContextInterfaces;
+using Persistence.Contexts;
 
 namespace WebAPI
 {
@@ -24,11 +24,16 @@ namespace WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<ArticlesDatabaseSettings>(Configuration.GetSection(nameof(ArticlesDatabaseSettings)));
-
-            services.AddSingleton<IArticlesDatabaseSettings>(sp => sp.GetRequiredService<IOptions<ArticlesDatabaseSettings>>().Value);
+            services.Configure<ArticlesDbSettings>(options =>
+            {
+                options.Connection = Configuration.GetSection("ArticlesDbSettings:Connection").Value;
+                options.DatabaseName = Configuration.GetSection("ArticlesDbSettings:DatabaseName").Value;
+                options.CollectionName = Configuration.GetSection("ArticlesDbSettings:CollectionName").Value;
+            });
 
             services.AddMediatR(typeof(GetAllArticlesQueryHandler).Assembly);
+
+            services.AddScoped<IArticlesDbContext, ArticlesDbContext>();
 
             services.AddScoped<IArticleRepository, ArticleRepository>();
 
