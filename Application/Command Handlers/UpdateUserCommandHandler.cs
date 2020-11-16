@@ -18,9 +18,9 @@ namespace Application.Command_Handlers
 
         public async Task<ApplicationUser> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
         {
-            var userToUpdate = _userRepository
+            var userToUpdate = await _userRepository
                 .GetUserByIdAsync(command.Id);
-            if (await userToUpdate == null) return null;
+            if (userToUpdate == null) return null;
 
             var newUser = new ApplicationUser
             {

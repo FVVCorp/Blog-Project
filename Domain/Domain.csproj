@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entity Interfaces" />
+    <Folder Include="EntityInterfaces" />
     <Folder Include="Enums" />
   </ItemGroup>
 

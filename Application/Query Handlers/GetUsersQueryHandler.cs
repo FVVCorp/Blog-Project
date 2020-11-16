@@ -20,11 +20,9 @@ namespace Application.Query_Handlers
         public async Task<IEnumerable<ApplicationUser>> Handle(GetAllUsersQuery request,
             CancellationToken cancellationToken)
         {
-            var users = _userRepository.GetUsersAsync();
-                
-            if (users == null) return null;
-
-            return await users;
+            var users = await _userRepository.GetUsersAsync();
+            
+            return users;
         }
     }
 }
