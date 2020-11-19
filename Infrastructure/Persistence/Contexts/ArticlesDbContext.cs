@@ -18,7 +18,7 @@ namespace Persistence.Contexts
             _db = _mongoClient.GetDatabase(_config.Value.DatabaseName);
         }
 
-        public IMongoCollection<T> GetCollections<T>()
+        public IMongoCollection<T> GetCollection<T>()
         {
             return _db.GetCollection<T>(_config.Value.CollectionName);
         }

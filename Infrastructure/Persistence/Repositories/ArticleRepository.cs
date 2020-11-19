@@ -12,14 +12,14 @@ namespace Persistence.Repositories
     public class ArticleRepository : IArticleRepository
     {
         private readonly IArticlesDbContext _context;
-        private readonly IMongoCollection<Article> _articles;
+        public readonly IMongoCollection<Article> _articles;
 
         public ArticleRepository(IArticlesDbContext context)
         {
             try
             {
                 _context = context;
-                _articles = _context.GetCollections<Article>();
+                _articles = _context.GetCollection<Article>();
             }
             catch(Exception e)
             {
@@ -60,15 +60,16 @@ namespace Persistence.Repositories
         {
             try
             {
-                if(!string.IsNullOrEmpty(newArticle.ArticleText) && newArticle.ArticleText.Length >= 25)
+                if (!string.IsNullOrEmpty(newArticle.ArticleText) && newArticle.ArticleText.Length >= 25)
                 {
-                    var maxArticleId = await _articles.Find(x => true).SortByDescending(a => a.ArticleId).Limit(1).FirstOrDefaultAsync();
-                    var defaultAuthorId = await _articles.Find(x => true).FirstOrDefaultAsync();
 
-                    newArticle.ArticleId = maxArticleId.ArticleId + 1;
-                    newArticle.AuthorId = defaultAuthorId.AuthorId;
+                    //var maxArticleId = await _articles.Find(x => true).SortByDescending(a => a.ArticleId).Limit(1).FirstOrDefaultAsync();
+                    //var defaultAuthorId = await _articles.Find(x => true).FirstOrDefaultAsync();
 
-                    await _articles.InsertOneAsync(newArticle, null);
+                    //newArticle.ArticleId = 1;
+                    //newArticle.AuthorId = 1;
+
+                    await _articles.InsertOneAsync(newArticle, null, default);
 
                     return newArticle.ArticleId;
                 }
@@ -77,6 +78,17 @@ namespace Persistence.Repositories
                     throw new NullReferenceException("Text for intserted article is null or empty");
                 }
             }
+
+            catch (NullReferenceException)
+            {
+               // newArticle.ArticleId = 1;
+                newArticle.AuthorId = 1;
+
+                await _articles.InsertOneAsync(newArticle, null, default);
+
+                return newArticle.ArticleId;
+            }
+
             catch (Exception e)
             {
                 Debug.WriteLine($"CreateArticle() is failed!\tException message: {e.Message}");

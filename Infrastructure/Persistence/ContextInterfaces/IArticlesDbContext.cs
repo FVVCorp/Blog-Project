@@ -4,6 +4,6 @@ namespace Persistence.ContextInterfaces
 {
     public interface IArticlesDbContext
     {
-        IMongoCollection<T> GetCollections<T>();
+        IMongoCollection<T> GetCollection<T>();
     }
 }
