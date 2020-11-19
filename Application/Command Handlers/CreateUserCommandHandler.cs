@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Application.Commands;
 using Domain.Entities;
 using MediatR;
-using Persistence.Repository_Interfaces;
+using Persistence.RepositoryInterfaces;
 
 namespace Application.Command_Handlers
 {

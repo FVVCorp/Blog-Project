@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Application.Queries;
 using Domain.Entities;
 using MediatR;
-using Persistence.Repository_Interfaces;
+using Persistence.RepositoryInterfaces;
 
 namespace Application.Query_Handlers
 {

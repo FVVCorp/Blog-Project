@@ -6,7 +6,7 @@ using Persistence.Configuration;
 
 namespace Persistence.Contexts
 {
-    public sealed class BlogContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
+    public class BlogContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
     {
         private readonly BlogConfiguration _configuration;
 

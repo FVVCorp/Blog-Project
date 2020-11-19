@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
-using Persistence.Repository_Interfaces;
+using Persistence.RepositoryInterfaces;
 
 namespace Persistence.Repositories
 {
@@ -14,9 +14,9 @@ namespace Persistence.Repositories
         {
             _context = context;
         }
-        public async Task<List<ApplicationUser>> GetUsersAsync()
+        public virtual async Task<List<ApplicationUser>> GetUsersAsync()
         {
-            return await _context.Set<ApplicationUser>().ToListAsync();
+            return await _context.Users.ToListAsync();
         }
         public async Task<ApplicationUser> GetUserByIdAsync(int userId)
         {

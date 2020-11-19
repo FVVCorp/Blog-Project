@@ -10,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Persistence.Configuration;
 using Persistence.Contexts;
 using Persistence.Repositories;
-using Persistence.Repository_Interfaces;
+using Persistence.RepositoryInterfaces;
 
 namespace WebAPI
 {

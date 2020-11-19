@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Domain.Entities;
 
-namespace Persistence.Repository_Interfaces
+namespace Persistence.RepositoryInterfaces
 {
     public interface IUserRepository
     {
