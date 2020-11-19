@@ -4,7 +4,7 @@ using Application.Commands;
 using MediatR;
 using Persistence.RepositoryInterfaces;
 
-namespace Application.Command_Handlers
+namespace Application.CommandHandlers
 {
     public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, bool>
     {

@@ -1,21 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces" />
-    <Folder Include="Services" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ServiceInterfaces\" />
+    <Folder Include="Services\" />
+    <Folder Include="Queries\" />
+    <Folder Include="Commands\" />
+    <Folder Include="QueryHandlers\" />
+    <Folder Include="CommandHandlers\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Infrastructure\Persistence\Persistence.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MediatR" Version="9.0.0" />
   </ItemGroup>
 
 </Project>

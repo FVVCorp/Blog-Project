@@ -5,7 +5,7 @@ using Domain.Entities;
 using MediatR;
 using Persistence.RepositoryInterfaces;
 
-namespace Application.Command_Handlers
+namespace Application.CommandHandlers
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ApplicationUser>
     {

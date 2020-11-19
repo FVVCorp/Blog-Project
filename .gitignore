@@ -5,6 +5,7 @@
 
 /.vs
 /.idea
+/WebAPI/ControllerResult
 
 # User-specific files
 *.rsuser

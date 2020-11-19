@@ -10,7 +10,7 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    [Migration("20201111111048_InitialMigration")]
+    [Migration("20201119143938_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

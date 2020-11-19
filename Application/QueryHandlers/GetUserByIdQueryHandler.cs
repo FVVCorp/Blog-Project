@@ -5,7 +5,7 @@ using Domain.Entities;
 using MediatR;
 using Persistence.RepositoryInterfaces;
 
-namespace Application.Query_Handlers
+namespace Application.QueryHandlers
 {
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, ApplicationUser>
     {
