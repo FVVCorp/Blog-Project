@@ -12,13 +12,13 @@ namespace Persistence.Contexts
 
         public BlogContext()
         {
+
         }
 
         public BlogContext(DbContextOptions<BlogContext> options,
             IOptions<BlogConfiguration> configOptions) : base(options)
         {
             _configuration = configOptions.Value;
-            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

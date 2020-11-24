@@ -26,7 +26,13 @@ namespace WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // DIs for ArticlesDb (MongoDB)
+
+            services.AddMediatR(typeof(GetAllArticlesQueryHandler).Assembly);
+            services.AddScoped<IArticlesDbContext, ArticlesDbContext>();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
+
             services.Configure<ArticlesDbSettings>(options =>
             {
                 options.Connection = Configuration
@@ -36,19 +42,17 @@ namespace WebAPI
                 options.CollectionName = Configuration
                     .GetSection("ArticlesDbSettings:CollectionName").Value;
             });
-            services.AddMediatR(typeof(GetAllArticlesQueryHandler).Assembly);
-            services.AddScoped<IArticlesDbContext, ArticlesDbContext>();
-            services.AddScoped<IArticleRepository, ArticleRepository>();
 
-            // DIs for UsersDb (EF)
-            services.AddScoped<IUserRepository, UserRepository>();
             services.Configure<BlogConfiguration>(options =>
             {
                 options.IdentityDatabaseConnection = Configuration
-                    .GetSection("ConnectionStrings:IdentityDatabaseConnection").Value;
+                    .GetSection("ConnectionStrings:BlogConnection").Value;
             });
             services.AddDbContext<BlogContext>(options => options
-                .UseSqlServer(Configuration.GetSection("ConnectionStrings:IdentityDatabaseConnection").Value));
+                .UseSqlServer(Configuration.GetSection("ConnectionStrings:BlogConnection").Value));
+
+            var connectionString1 = Configuration.GetSection("ConnectionStrings:BlogConnection").Value;
+            var connectionString2 = Configuration.GetConnectionString("BlogConnection");
 
             services.AddControllers();
         }
