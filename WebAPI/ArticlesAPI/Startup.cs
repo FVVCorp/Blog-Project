@@ -1,11 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Persistence.Configuration;
 using Persistence.Contexts;
 using Persistence.Repositories;
 using Persistence.RepositoryInterfaces;
@@ -42,17 +40,6 @@ namespace WebAPI
                 options.CollectionName = Configuration
                     .GetSection("ArticlesDbSettings:CollectionName").Value;
             });
-
-            services.Configure<BlogConfiguration>(options =>
-            {
-                options.IdentityDatabaseConnection = Configuration
-                    .GetSection("ConnectionStrings:BlogConnection").Value;
-            });
-            services.AddDbContext<BlogContext>(options => options
-                .UseSqlServer(Configuration.GetSection("ConnectionStrings:BlogConnection").Value));
-
-            var connectionString1 = Configuration.GetSection("ConnectionStrings:BlogConnection").Value;
-            var connectionString2 = Configuration.GetConnectionString("BlogConnection");
 
             services.AddControllers();
         }
