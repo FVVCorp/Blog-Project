@@ -14,10 +14,7 @@ namespace Persistence.UnitTests.Utils
 
         public T Current => _data.Current;
 
-        public ValueTask<bool> MoveNextAsync()
-        {
-            return new ValueTask<bool>(_data.MoveNext());
-        }
+        public ValueTask<bool> MoveNextAsync() => new ValueTask<bool>(_data.MoveNext());
 
         public ValueTask DisposeAsync()
         {

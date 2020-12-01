@@ -5,7 +5,7 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPI.Controllers
+namespace UsersAPI.Controllers
 {
     [ApiController, Route("api/[controller]")]
     public class UsersController : ControllerBase

@@ -7,20 +7,20 @@ namespace Persistence.Contexts
 {
     public class ArticlesDbContext : IArticlesDbContext 
     {
-        private IMongoDatabase _db { get; set; }
-        private MongoClient _mongoClient { get; set; }
-        private IOptions<ArticlesDbSettings> _config { get; set; }
+        private IMongoDatabase Db { get; set; }
+        private MongoClient MongoClient { get; set; }
+        private IOptions<ArticlesDbSettings> Config { get; set; }
 
         public ArticlesDbContext(IOptions<ArticlesDbSettings> config)
         {
-            _config = config;
-            _mongoClient = new MongoClient(_config.Value.Connection);
-            _db = _mongoClient.GetDatabase(_config.Value.DatabaseName);
+            Config = config;
+            MongoClient = new MongoClient(Config.Value.Connection);
+            Db = MongoClient.GetDatabase(Config.Value.DatabaseName);
         }
 
         public IMongoCollection<T> GetCollection<T>()
         {
-            return _db.GetCollection<T>(_config.Value.CollectionName);
+            return Db.GetCollection<T>(Config.Value.CollectionName);
         }
     }
 }

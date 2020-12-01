@@ -20,25 +20,18 @@ namespace Persistence.UnitTests.Helpers
                 .Returns(new TestAsyncEnumerator<T>(data.GetEnumerator()));
 
             // for sync expressions
+            dbSet.As<IQueryable<T>>()
+                .Setup(x => x.Provider).Returns(new TestAsyncQueryProvider<T>(data.Provider));
+            
             dbSet
                 .As<IQueryable<T>>()
-                .Setup(x => x.Provider)
-                .Returns(new TestAsyncQueryProvider<T>(data.Provider));
-
-            dbSet
-                .As<IQueryable<T>>()
-                .Setup(x => x.Expression)
-                .Returns(data.Expression);
-
-            dbSet
-                .As<IQueryable<T>>()
-                .Setup(x => x.ElementType)
-                .Returns(data.ElementType);
-
-            dbSet
-                .As<IQueryable<T>>()
-                .Setup(x => x.GetEnumerator())
-                .Returns(data.GetEnumerator());
+                .Setup(x => x.Expression).Returns(data.Expression);
+            
+            dbSet.As<IQueryable<T>>()
+                .Setup(x => x.ElementType).Returns(data.ElementType);
+            
+            dbSet.As<IQueryable<T>>()
+                .Setup(x => x.GetEnumerator()).Returns(data.GetEnumerator());
             
             return dbSet;
         }

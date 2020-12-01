@@ -14,29 +14,14 @@ namespace Persistence.UnitTests.Utils
             _data = data;
         }
 
-        public IQueryable CreateQuery(Expression expression)
-        {
-            return new TestAsyncEnumerable<TEntity>(expression);
-        }
+        public IQueryable CreateQuery(Expression expression) => new TestAsyncEnumerable<TEntity>(expression);
+        
+        public IQueryable<TElement> CreateQuery<TElement>(Expression expression) => new TestAsyncEnumerable<TElement>(expression);
 
-        public IQueryable<TElement> CreateQuery<TElement>(Expression expression)
-        {
-            return new TestAsyncEnumerable<TElement>(expression);
-        }
+        public object Execute(Expression expression) => _data.Execute(expression);
 
-        public object Execute(Expression expression)
-        {
-            return _data.Execute(expression);
-        }
-
-        public TResult Execute<TResult>(Expression expression)
-        {
-            return _data.Execute<TResult>(expression);
-        }
-
-        public TResult ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken)
-        {
-            return Execute<TResult>(expression);
-        }
+        public TResult Execute<TResult>(Expression expression) => _data.Execute<TResult>(expression);
+        
+        public TResult ExecuteAsync<TResult>(Expression expression, CancellationToken token) => Execute<TResult>(expression);
     }
 }

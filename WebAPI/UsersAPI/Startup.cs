@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Application.QueryHandlers;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -6,10 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Persistence.Configuration;
+using Microsoft.OpenApi.Models;
 using Persistence.Contexts;
 using Persistence.Repositories;
 using Persistence.RepositoryInterfaces;
+using Persistence.Settings;
 
 namespace UsersAPI
 {
@@ -20,20 +24,32 @@ namespace UsersAPI
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // DIs for UsersDb (EF)
             services.AddScoped<IUserRepository, UserRepository>();
-            services.Configure<BlogConfiguration>(options =>
+            services.Configure<UserDbConfig>(options =>
             {
-                options.IdentityDatabaseConnection = Configuration
-                    .GetSection("ConnectionStrings:IdentityDatabaseConnection").Value;
+                options.BlogConnection = Configuration
+                    .GetSection("ConnectionStrings:BlogConnection").Value;
             });
             services.AddMediatR(typeof(GetUsersQueryHandler).Assembly);
             services.AddDbContext<BlogContext>(options => options
-                .UseSqlServer(Configuration.GetSection("ConnectionStrings:IdentityDatabaseConnection").Value));
+                .UseSqlServer(Configuration.GetSection("ConnectionStrings:BlogConnection").Value));
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "UsersApi",
+                    Description = "Some description...",
+                    Version = "v1" 
+                });
+                var fileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var filePath = Path.Combine(AppContext.BaseDirectory, fileName);
+                options.IncludeXmlComments(filePath);
+            });
 
             services.AddControllers();
         }
@@ -51,9 +67,13 @@ namespace UsersAPI
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+            app.UseSwagger();
+            
+            app.UseSwaggerUI(options =>
             {
-                endpoints.MapControllers();
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "UsersApi");
             });
         }
     }
