@@ -14,13 +14,14 @@ namespace Persistence.Repositories
         {
             _context = context;
         }
-        public virtual async Task<List<ApplicationUser>> GetUsersAsync()
+        public virtual async Task<List<ApplicationUser>> GetAll()
         {
             return await _context.Users.ToListAsync();
         }
+
         public async Task<ApplicationUser> GetUserByIdAsync(int userId)
         {
-            return await _context.Users.FindAsync(userId);
+            return await _context.Users.FindAsync(userId); 
         }
         public async Task<ApplicationUser> CreateAsync(ApplicationUser applicationUser)
         {
@@ -28,7 +29,7 @@ namespace Persistence.Repositories
             await _context.SaveChangesAsync();
             
             return applicationUser;    
-        }
+        }    
         public async Task<ApplicationUser> UpdateAsync(ApplicationUser applicationUser)
         {
             _context.Users.Update(applicationUser);    

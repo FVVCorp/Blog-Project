@@ -1,11 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Persistence.Configuration;
 using Persistence.Contexts;
 using Persistence.Repositories;
 using Persistence.RepositoryInterfaces;
@@ -26,7 +24,13 @@ namespace WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // DIs for ArticlesDb (MongoDB)
+
+            services.AddMediatR(typeof(GetAllArticlesQueryHandler).Assembly);
+            services.AddScoped<IArticlesDbContext, ArticlesDbContext>();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
+
             services.Configure<ArticlesDbSettings>(options =>
             {
                 options.Connection = Configuration
@@ -36,19 +40,6 @@ namespace WebAPI
                 options.CollectionName = Configuration
                     .GetSection("ArticlesDbSettings:CollectionName").Value;
             });
-            services.AddMediatR(typeof(GetAllArticlesQueryHandler).Assembly);
-            services.AddScoped<IArticlesDbContext, ArticlesDbContext>();
-            services.AddScoped<IArticleRepository, ArticleRepository>();
-
-            // DIs for UsersDb (EF)
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.Configure<BlogConfiguration>(options =>
-            {
-                options.IdentityDatabaseConnection = Configuration
-                    .GetSection("ConnectionStrings:IdentityDatabaseConnection").Value;
-            });
-            services.AddDbContext<BlogContext>(options => options
-                .UseSqlServer(Configuration.GetSection("ConnectionStrings:IdentityDatabaseConnection").Value));
 
             services.AddControllers();
         }

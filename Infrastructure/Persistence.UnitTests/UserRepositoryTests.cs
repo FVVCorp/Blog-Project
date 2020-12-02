@@ -1,116 +1,83 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Domain.Entities;
 using Moq;
 using Persistence.Contexts;
 using Persistence.Repositories;
 using Persistence.RepositoryInterfaces;
+using Persistence.UnitTests.Helpers;
 using Xunit;
 
 namespace Persistence.UnitTests
 {
     public class UserRepositoryTests
     {
-        private readonly ApplicationUser _user = new ApplicationUser
-        {
-            Id = 10, FirstName = "James", LastName = "Orange"
-        };
-        
-        private readonly int _id = 3;
-        
-        private readonly List<ApplicationUser> _list = new List<ApplicationUser>
-        {
-            new ApplicationUser {Id = 1, FirstName = "John", LastName = "Brown"},
-            new ApplicationUser {Id = 2, FirstName = "Johan", LastName = "Green"},
-            new ApplicationUser {Id = 3, FirstName = "Jam", LastName = "Black"},
-            new ApplicationUser {Id = 4, FirstName = "Jackson", LastName = "White"},
-            new ApplicationUser {Id = 5, FirstName = "Jack", LastName = "Grey"},
-            new ApplicationUser {Id = 10, FirstName = "James", LastName = "Orange"}
-        };
+        private readonly IUserRepository _userRepository;
 
-        private readonly Mock<BlogContext> _mockContext;
-        private  IUserRepository _userRepository;
+        private readonly List<ApplicationUser> _users;
 
         public UserRepositoryTests()
         {
-            _mockContext = new Mock<BlogContext>();
+            _users = GetAllUsers();
+
+            var context = SetupContext(_users);
+
+            _userRepository = new UserRepository(context.Object);
         }
-        
-        [Fact(Skip = "Unable to test asynchronous method 'GetAllAsync'")]         
-        public async Task GetUsersAsync_ReturnsListOfUsers_IfListExists()
+
+        [Fact]
+        public async Task when_getting_all_users_should_return_all_users_from_database()
         {
-            // Arrange
-            _mockContext.SetupGet(context => context.Users)
-                .Returns(DbSetMock.GetQueryableMockDbSet(_list));
+            var result = await _userRepository.GetAll();
+
+            Assert.Equal(_users.Count, result.Count);
+
+            Enumerable
+                .Range(0, _users.Count)
+                .ToList()
+                .ForEach(i =>
+                {
+                    Assert.Equal(_users, result);
+                });
+        }
+
+        [Fact(Skip = "")]
+        public async Task when_getting_user_by_id_should_return_this_user_from_database()
+        {
+            var userId = 3;
+            var expectedUser = _users.FirstOrDefault(u => u.Id == userId);
+        
+            var result = await _userRepository.GetUserByIdAsync(userId);
             
-            _userRepository = new UserRepository(_mockContext.Object);
+            Assert.Equal(expectedUser, result);
+        }
 
-            // Act 
-            var users = await _userRepository.GetUsersAsync();
+        private Mock<BlogContext> SetupContext(List<ApplicationUser> users)
+        {
+            var queryableUsers = users.AsQueryable();
+
+            var usersDbSet = DbSetMockHelper.Get(queryableUsers).Object;
+
+            var blogContext = new Mock<BlogContext>();
+            blogContext
+                .SetupGet(x => x.Users)
+                .Returns(usersDbSet);
             
-            // Assert
-            Assert.Equal(_list, users);
+
+            return blogContext;
         }
 
-        [Fact(Skip = "")]
-        public async Task GetUserByIdAsync_ReturnsUser_IfUserExists()
+        private List<ApplicationUser> GetAllUsers()
         {
-            // Arrange
-            Random rnd = new Random();
-            var value = rnd.Next(0, 5);
-            _mockContext.SetupGet(context => context.Users)
-                .Returns(DbSetMock.GetQueryableMockDbSet(_list));
-            // _userRepository = new UserRepository(_mockContext.Object);
-
-            // Act
-            var user = await _userRepository.GetUserByIdAsync(value);
-        
-            // Assert
-            Assert.Equal(_list[value], user);
-        }
-        
-        
-        [Fact(Skip = "")]
-        public async Task CreateUserAsync_ReturnsCreatedUser_IsUserIsCreated()
-        {
-            // Arrange
-            _mockContext.Setup(context => context.Users).Returns(DbSetMock.GetQueryableMockDbSet(_list));
-            _userRepository = new UserRepository(_mockContext.Object);
-
-            // Act
-            var user = await _userRepository.CreateAsync(_user);
-        
-            // Assert
-            Assert.Equal(_user, user);
-        }
-        
-        [Fact(Skip = "")]
-        public async Task UpdateUserAsync_ReturnsUpdatedUser_IfUserIsUpdated()
-        {
-            // Arrange
-            _mockContext.Setup(context => context.Users).Returns(DbSetMock.GetQueryableMockDbSet(_list));
-            _userRepository = new UserRepository(_mockContext.Object);
-
-            // Act
-            var user = await _userRepository.UpdateAsync(_user);
-        
-            // Assert
-            Assert.Equal(user, _user);
-        }
-        
-        [Fact(Skip = "")]
-        public async Task DeleteUserAsync_ReturnsBooleanResult_IfUserIsExist()
-        {
-            // Arrange 
-            _mockContext.Setup(context => context.Users).Returns(DbSetMock.GetQueryableMockDbSet(_list));
-            _userRepository = new UserRepository(_mockContext.Object);
-            
-            // Act
-            var user = await _userRepository.DeleteAsync(_id);
-        
-            // Assert
-            Assert.Equal(user, _user);
+            return new List<ApplicationUser>
+            {
+                new ApplicationUser {Id = 1, FirstName = "John", LastName = "Brown"},
+                new ApplicationUser {Id = 2, FirstName = "Johan", LastName = "Green"},
+                new ApplicationUser {Id = 3, FirstName = "Jam", LastName = "Black"},
+                new ApplicationUser {Id = 4, FirstName = "Jackson", LastName = "White"},
+                new ApplicationUser {Id = 5, FirstName = "Jack", LastName = "Grey"}
+            };
         }
     }
 }
